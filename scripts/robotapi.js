@@ -242,6 +242,23 @@ function Robot(robotId, apiDiv) {
     }
   }
   
+  this.getCheckboxValues = function() {
+    var checkedBoxes = [];
+    if (Robot.bellyScreens != null && Robot.currentScreen >= 0
+      && Robot.currentScreen < Robot.bellyScreens.length) {
+      var checkboxList = Robot.bellyScreens[Robot.currentScreen].checkboxes.list;
+      if (checkboxList != undefined || checkboxList.length > 0) {
+        for (var i = 0; i < checkboxList.length; i++) {
+          checkbox = checkboxList[i];
+          if (checkbox.value == true) {
+            checkedBoxes.push(checkbox.name);
+          }
+        }
+      }
+    }
+    return checkedBoxes;
+  }
+  
   Robot._requestRobotAction = function(actionName, params) {
     var dbRef = firebase.database().ref("/robots/" + Robot.robotId
                                       + "/actions/" + actionName + "/");

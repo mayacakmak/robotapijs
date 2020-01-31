@@ -88,7 +88,10 @@ function Robot(robotId, apiDiv) {
                         "Makes the robot sleep for the specified duration.",
                        "<b>duration</b> is an Integer that specifies how long the robot will sleep/wait/do nothing in <i>milliseconds</i>",
                        "await robot.sleep(1000);");
-
+    apiText += Robot._getAPICardHTML("robot.setLEDColor(r, g, b)",
+                      "Changes the robot LED colors.",
+                      "<b>r, g, b</b> are integers that specify the color code for the robot's LED lights",
+                      "robot.currentLEDColor(128, 0, 128)");
 
     return apiText;
   }
@@ -301,5 +304,17 @@ function Robot(robotId, apiDiv) {
   this.sleep = async function(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
+  
+  this.setLEDColor = function (r, g, b) {
+    if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0 )
+      console.log("Invalid RGB values");
+    else {
+      console.log("Setting LED color to (" + r + ", " + g + ", " + b + ")");
+      Robot._requestRobotState("currentLEDR", r);
+      Robot._requestRobotState("currentLEDG", g);
+      Robot._requestRobotState("currentLEDB", b);
+    }
+  }
+  
   // TODO: Add other actions
 }
